@@ -11,28 +11,34 @@ function Read() {
 
     return (
         <ul>
-            {filteredList.map((tache) => (
-                <li
-                    key={tache.id}
-                    style={{ borderBottom: "1px solid #ccc", paddingBottom: "10px", marginBottom: "15px", listStyleType: "none" }}
-                >
-                    <h3>{tache.title}</h3>
+            {filteredList.map((tache) => {
+                // Petite astuce pour gérer ta tâche 101 qui utilise "equipiers"
+                const personnes = tache.contacts || tache.equipiers || [];
 
-                    <p><strong>Description :</strong> {tache.description || "Aucune description"}</p>
-                    <p><strong>État :</strong> {tache.etat}</p>
-                    <p><strong>Créée le :</strong> {tache.date_creation}</p>
-                    <p><strong>Échéance :</strong> {tache.date_echeance || "Non définie"}</p>
+                return (
+                    <li
+                        key={tache.id}
+                        style={{ borderBottom: "1px solid #ccc", paddingBottom: "10px", marginBottom: "15px", listStyleType: "none" }}
+                    >
+                        <h3>{tache.title}</h3>
 
-                    <p>
-                        <strong>Contacts :</strong>{' '}
-                        {tache.contacts && tache.contacts.length > 0
-                            ? tache.contacts.join(', ')
-                            : "Aucun contact"}
-                    </p>
+                        <p><strong>Description :</strong> {tache.description || "Aucune description"}</p>
+                        <p><strong>État :</strong> {tache.etat}</p>
+                        <p><strong>Créée le :</strong> {tache.date_creation}</p>
+                        <p><strong>Échéance :</strong> {tache.date_echeance || "Non définie"}</p>
 
-                    <Edit tache={tache} />
-                </li>
-            ))}
+                        {/* 🔥 L'affichage propre des contacts ! */}
+                        <p>
+                            <strong>Contacts :</strong>{' '}
+                            {personnes.length > 0
+                                ? personnes.map((personne) => personne.name).join(', ')
+                                : "Aucun contact"}
+                        </p>
+
+                        <Edit tache={tache} />
+                    </li>
+                );
+            })}
         </ul>
     );
 }
