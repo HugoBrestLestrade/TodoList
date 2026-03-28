@@ -18,7 +18,7 @@ export default function Footer() {
     };
 
     const handleSubmit = () => {
-        if (formData.title.trim() === "") return;
+        if (formData.title.trim() < 5) return;
 
         // On passe de "Bob, Alice" en  : [{ name: "Bob" }, { name: "Alice" }] pour les contacts
         const formattedContacts = formData.contactsInput

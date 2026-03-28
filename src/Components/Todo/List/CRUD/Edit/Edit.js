@@ -34,7 +34,7 @@ export default function Edit({ tache }) {
     };
 
     const handleSubmit = () => {
-        if (formData.title.trim() === "") return;
+        if (formData.title.trim() < 5) return;
 
         const formattedContacts = formData.contactsInput
             .split(',')
