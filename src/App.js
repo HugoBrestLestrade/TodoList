@@ -8,7 +8,6 @@ function App() {
     return (
         <ListProvider>
             <Header />
-            <h1> TODO LIST</h1>
             <Todo />
             <Footer />
         </ListProvider>

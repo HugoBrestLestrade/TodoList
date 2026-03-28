@@ -1,27 +1,45 @@
 import { useContext } from 'react';
 import { ListContext } from '../../ListContext';
-import data from './../../../../../data.json'; {/* Ptetre a enlever pour respecter le ListContext.js, et du coup faudra enlever aussi le RevenirJson au passage*/}
+import data from './../../../../../data.json';
 
 export default function Reset() {
-  const { setList } = useContext(ListContext);
+    const { setList } = useContext(ListContext);
 
-  return (
-    <>
-        <button onClick={() => setList([])}>
-        Partir de 0
-        </button>
-        <RevenirJson/>
-    </>
 
-  );
+    const handleReset = () => {
+
+        const isConfirmed = window.confirm("Êtes-vous sûr(e) de vouloir repartir de zéro ?");
+
+
+        if (isConfirmed) {
+            setList([]);
+        }
+    };
+
+    return (
+        <>
+            <button onClick={handleReset}>
+                Partir de 0
+            </button>
+            <RevenirJson/>
+        </>
+    );
 }
 
 function RevenirJson() {
-  const {List,  setList } = useContext(ListContext);
+    const { setList } = useContext(ListContext);
 
-  return (
-    <button onClick={() => setList(data.tasks)}>
-      Revenir au fichier JSON
-    </button>
-  );
+    const handleRestore = () => {
+        const isConfirmed = window.confirm("Revenir au fichier JSON ?");
+
+        if (isConfirmed) {
+            setList(data.tasks);
+        }
+    };
+
+    return (
+        <button onClick={handleRestore}>
+            Revenir au fichier JSON
+        </button>
+    );
 }
