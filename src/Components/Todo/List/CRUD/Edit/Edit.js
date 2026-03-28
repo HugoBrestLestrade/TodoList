@@ -1,8 +1,7 @@
 import { useState, useContext } from 'react';
 import { ListContext } from '../../ListContext';
 import "./../../../../Footer/Footer.css"
-// N'oublie pas d'importer ton CSS ici si les classes modal-overlay etc. n'y sont pas
-// import "./Edit.css"; ou import "../Footer/Footer.css";
+
 
 export default function Edit({ tache }) {
     const { list, setList } = useContext(ListContext);
@@ -16,7 +15,6 @@ export default function Edit({ tache }) {
         contactsInput: ""
     });
 
-    // 1. Fonction pour ouvrir le modal ET charger les données actuelles de la tâche
     const handleOpen = () => {
         const initialContacts = tache.contacts || tache.equipiers || [];
 
@@ -25,34 +23,29 @@ export default function Edit({ tache }) {
             description: tache.description || "",
             date_echeance: tache.date_echeance || "",
             etat: tache.etat || "Nouveau",
-            // On retransforme le tableau en texte avec des virgules
             contactsInput: initialContacts.map(c => c.name).join(', ')
         });
 
         setOpen(true);
     };
 
-    // 2. Gestion de la frappe dans les champs (identique au Footer)
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    // 3. Sauvegarde des modifications
     const handleSubmit = () => {
         if (formData.title.trim() === "") return;
 
-        // On retransforme le texte en tableau d'objets pour le JSON
         const formattedContacts = formData.contactsInput
             .split(',')
             .map(nom => nom.trim())
             .filter(nom => nom !== "")
             .map(nom => ({ name: nom }));
 
-        // On met à jour la liste en remplaçant uniquement la tâche modifiée
         const updatedList = list.map((item) => {
             if (item.id === tache.id) {
                 return {
-                    ...item, // Garde l'ID, date_creation, etc.
+                    ...item,
                     title: formData.title,
                     description: formData.description,
                     date_echeance: formData.date_echeance,
@@ -64,12 +57,12 @@ export default function Edit({ tache }) {
         });
 
         setList(updatedList);
-        setOpen(false); // On ferme le modal
+        setOpen(false);
     };
 
     return (
         <>
-            {/* Le bouton pour déclencher le modal */}
+
             <button onClick={handleOpen}>Modifier</button>
 
             {open && (
@@ -107,7 +100,7 @@ export default function Edit({ tache }) {
                             onChange={handleChange}
                         />
 
-                        {/* On garde ton ancien <select> mais on le relie au formData ! */}
+
                         <select name="etat" value={formData.etat} onChange={handleChange}>
                             <option value="Nouveau">Nouveau</option>
                             <option value="En attente">En attente</option>
