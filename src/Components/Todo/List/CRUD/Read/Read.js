@@ -27,7 +27,6 @@ function Read() {
                         <p><strong>Créée le :</strong> {tache.date_creation}</p>
                         <p><strong>Échéance :</strong> {tache.date_echeance || "Non définie"}</p>
 
-                        {/* 🔥 L'affichage propre des contacts ! */}
                         <p>
                             <strong>Contacts :</strong>{' '}
                             {personnes.length > 0

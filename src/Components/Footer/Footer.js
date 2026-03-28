@@ -13,14 +13,29 @@ export default function Footer() {
         contactsInput: ""
     });
 
+    // Message d'erreur
+    const [error, setError] = useState("");
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+        if (error) setError("");
     };
 
     const handleSubmit = () => {
-        if (formData.title.trim() < 5) return;
+        // Validation de l'intitulé <5
+        if (formData.title.trim().length < 5) {
+            setError("L'intitulé doit contenir au moins 5 caractères.");
+            return;
+        }
 
-        // On passe de "Bob, Alice" en  : [{ name: "Bob" }, { name: "Alice" }] pour les contacts
+        //Validation de la date d'échéance
+        if (!formData.date_echeance) {
+            setError("La date d'échéance est obligatoire.");
+            return;
+        }
+
+        setError("");
+
         const formattedContacts = formData.contactsInput
             .split(',')
             .map(nom => nom.trim())
@@ -41,6 +56,11 @@ export default function Footer() {
         setOpen(false);
     };
 
+    const handleClose = () => {
+        setOpen(false);
+        setError("");
+    };
+
     return (
         <footer>
             <p>FOOTER</p>
@@ -51,10 +71,12 @@ export default function Footer() {
                     <div className="modal-content">
                         <h2>Créer une tâche</h2>
 
+                        {error && <p style={{ color: "red", fontSize: "14px", margin: "0" }}>{error}</p>}
+
                         <input
                             name="title"
                             type="text"
-                            placeholder="Titre de la tâche"
+                            placeholder="Titre de la tâche (5 car. min)"
                             value={formData.title}
                             onChange={handleChange}
                         />
@@ -72,6 +94,7 @@ export default function Footer() {
                             value={formData.date_echeance}
                             onChange={handleChange}
                         />
+
                         <input
                             name="contactsInput"
                             type="text"
@@ -82,7 +105,7 @@ export default function Footer() {
 
                         <div className="modal-actions">
                             <button onClick={handleSubmit}>Ajouter</button>
-                            <button onClick={() => setOpen(false)}>Fermer</button>
+                            <button onClick={handleClose}>Fermer</button>
                         </div>
                     </div>
                 </div>
