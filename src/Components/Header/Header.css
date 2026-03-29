@@ -1,0 +1,73 @@
+.header-container {
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.header-title {
+    margin: 0;
+}
+
+.header-stats-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.header-text-stats {
+    text-align: right;
+    font-size: 1.1rem;
+}
+
+.header-total-text {
+    margin: 0 0 5px 0;
+}
+
+.header-unfinished-text {
+    margin: 0;
+    color: #f1c40f;
+}
+
+.header-pie-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-left: 1px solid #7f8c8d;
+    padding-left: 30px;
+}
+
+.header-pie-chart {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.header-pie-legend {
+    font-size: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.header-pie-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.header-pie-dot {
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    border-radius: 50%;
+}

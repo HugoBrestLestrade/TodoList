@@ -1,0 +1,66 @@
+.tache-item {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    list-style-type: none;
+}
+
+/* MODE SIMPLE */
+.tache-simple-mode {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    flex-wrap: wrap;
+}
+
+.tache-toggle-icon {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+.tache-title {
+    margin: 0 15px 0 0;
+}
+
+.tache-dossiers-preview {
+    display: flex;
+}
+
+.tache-dossiers-more {
+    font-size: 0.8rem;
+    color: #888;
+    margin-left: 5px;
+}
+
+.tache-date {
+    margin-left: auto;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* MODE COMPLET */
+.tache-complet-mode {
+    margin-top: 15px;
+    padding-left: 25px;
+}
+
+.tache-dossiers-full {
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.tache-edit-wrapper {
+    margin-top: 10px;
+}
+
+/*DOSSIERS*/
+.tache-dossier-tag {
+    color: white;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    margin-right: 5px;
+    font-weight: bold;
+}

@@ -1,0 +1,20 @@
+.tri-container {
+    background-color: #e9ecef;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tri-select {
+    padding: 5px;
+    flex: 1;
+    max-width: 200px;
+}
+
+.tri-button {
+    padding: 5px;
+    cursor: pointer;
+}

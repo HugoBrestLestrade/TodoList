@@ -1,61 +1,21 @@
 import { ListContext } from '../../ListContext';
 import { useContext, useState } from 'react';
-import Edit from '../Edit/Edit';
+import Tache from '../../../Tache/Tache';
+import Filtre from '../../../Filtre/Filtre';
 import Tri from '../../../Tri/Tri';
-
-function TaskItem({ tache }) {
-    const [isComplet, setIsComplet] = useState(false);
-    const personnes = tache.contacts || tache.equipiers || [];
-    const dossiers = tache.dossiers || [];
-
-    const renderDossier = (dossier, index) => (
-        <span key={index} style={{ backgroundColor: dossier.couleur || "#ccc", color: "white", padding: "3px 8px", borderRadius: "12px", fontSize: "0.8rem", marginRight: "5px", fontWeight: "bold" }}>
-            {dossier.intitule}
-        </span>
-    );
-
-    return (
-        <li style={{ borderBottom: "1px solid #ccc", paddingBottom: "10px", marginBottom: "15px", listStyleType: "none" }}>
-            <div style={{ display: "flex", alignItems: "center", cursor: "pointer", flexWrap: "wrap" }} onClick={() => setIsComplet(!isComplet)}>
-                <span style={{ marginRight: "10px", fontSize: "1.2rem" }}>{isComplet ? "▼" : "▶"}</span>
-                <h3 style={{ margin: 0, marginRight: "15px" }}>{tache.title}</h3>
-
-                <div style={{ display: "flex" }}>
-                    {dossiers.slice(0, 2).map(renderDossier)}
-                    {dossiers.length > 2 && !isComplet && <span style={{ fontSize: "0.8rem", color: "#888", marginLeft: "5px" }}>+{dossiers.length - 2}</span>}
-                </div>
-                <span style={{ marginLeft: "auto", fontSize: "0.9rem", color: "#666" }}>Échéance : {tache.date_echeance || "Non définie"}</span>
-            </div>
-
-            {isComplet && (
-                <div style={{ marginTop: "15px", paddingLeft: "25px" }}>
-                    {dossiers.length > 0 && (
-                        <div style={{ marginBottom: "10px", display: "flex", flexWrap: "wrap", gap: "5px" }}>
-                            <strong>Dossiers : </strong>{dossiers.map(renderDossier)}
-                        </div>
-                    )}
-                    <p><strong>Description :</strong> {tache.description || "Aucune description"}</p>
-                    <p><strong>État :</strong> {tache.etat}</p>
-                    <p><strong>Créée le :</strong> {tache.date_creation}</p>
-                    <p><strong>Contacts :</strong> {personnes.length > 0 ? personnes.map(p => p.name).join(', ') : "Aucun contact"}</p>
-                    <div style={{ marginTop: "10px" }}><Edit tache={tache} /></div>
-                </div>
-            )}
-        </li>
-    );
-}
 
 function Read() {
     const { list, dossiersList } = useContext(ListContext);
 
+    // States pour le Filtre
     const [searchTerm, setSearchTerm] = useState("");
+    const [activeEtats, setActiveEtats] = useState(["Nouveau", "En attente"]);
+    const [activeDossiers, setActiveDossiers] = useState([]);
+    const tousLesEtats = ["Nouveau", "En attente", "Reussi", "Abandoné"];
+
+    // States pour le Tri
     const [sortBy, setSortBy] = useState("date_echeance");
     const [sortDesc, setSortDesc] = useState(true);
-    const [activeEtats, setActiveEtats] = useState(["Nouveau", "En attente"]);
-
-    const [activeDossiers, setActiveDossiers] = useState([]);
-
-    const tousLesEtats = ["Nouveau", "En attente", "Reussi", "Abandoné"];
 
     const toggleEtat = (etatChoisi) => {
         if (activeEtats.includes(etatChoisi)) setActiveEtats(activeEtats.filter(etat => etat !== etatChoisi));
@@ -63,24 +23,17 @@ function Read() {
     };
 
     const toggleFiltreDossier = (intituleDossier) => {
-        if (activeDossiers.includes(intituleDossier)) {
-            setActiveDossiers(activeDossiers.filter(d => d !== intituleDossier));
-        } else {
-            setActiveDossiers([...activeDossiers, intituleDossier]);
-        }
+        if (activeDossiers.includes(intituleDossier)) setActiveDossiers(activeDossiers.filter(d => d !== intituleDossier));
+        else setActiveDossiers([...activeDossiers, intituleDossier]);
     };
 
     const processedList = list
         .filter((tache) => activeEtats.includes(tache.etat))
-
         .filter((tache) => {
             if (activeDossiers.length === 0) return true;
-
             const taskDossiersNoms = tache.dossiers ? tache.dossiers.map(d => d.intitule) : [];
-            // "some" vérifie si au moins un des dossiers cochés est présent dans la tâche
             return activeDossiers.some(dossierFiltre => taskDossiersNoms.includes(dossierFiltre));
         })
-
         .filter((tache) => {
             if (searchTerm === "") return true;
             const lowerSearch = searchTerm.toLowerCase();
@@ -98,30 +51,31 @@ function Read() {
 
     return (
         <div>
-            <Tri
+            <Filtre
                 searchTerm={searchTerm} setSearchTerm={setSearchTerm}
                 activeEtats={activeEtats} setActiveEtats={setActiveEtats}
                 tousLesEtats={tousLesEtats} toggleEtat={toggleEtat}
+                dossiersList={dossiersList} activeDossiers={activeDossiers} toggleFiltreDossier={toggleFiltreDossier}
+            />
+
+            <Tri
                 sortBy={sortBy} setSortBy={setSortBy}
                 sortDesc={sortDesc} setSortDesc={setSortDesc}
-                dossiersList={dossiersList}
-                activeDossiers={activeDossiers}
-                toggleFiltreDossier={toggleFiltreDossier}
             />
 
             <ul style={{ padding: 0 }}>
                 {processedList.map((tache) => (
-                    <TaskItem key={tache.id} tache={tache} />
-                ))}
+                    <Tache key={tache.id} tache={tache} />
+            ))}
 
-                {processedList.length === 0 && (
-                    <p style={{ textAlign: "center", color: "#888", fontStyle: "italic" }}>
-                        Aucune tâche ne correspond à ces filtres.
-                    </p>
-                )}
-            </ul>
-        </div>
-    );
+            {processedList.length === 0 && (
+                <p style={{ textAlign: "center", color: "#888", fontStyle: "italic" }}>
+                    Aucune tâche ne correspond à ces critères.
+                </p>
+            )}
+        </ul>
+</div>
+);
 }
 
 export default Read;

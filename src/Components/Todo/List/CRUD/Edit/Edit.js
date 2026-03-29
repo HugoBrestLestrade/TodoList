@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
 import { ListContext } from '../../ListContext';
-import "./../../../../Footer/Footer.css"
+import "./../../../../Footer/Footer.css";
+import './Edit.css';
 
 export default function Edit({ tache }) {
     const { list, setList, dossiersList, setDossiersList } = useContext(ListContext);
@@ -105,7 +106,7 @@ export default function Edit({ tache }) {
                     <div className="modal-content">
                         <h2>Modifier la tâche</h2>
 
-                        {error && <p style={{ color: "red", fontSize: "14px", margin: "0" }}>{error}</p>}
+                        {error && <p className="edit-error-msg">{error}</p>}
 
                         <input name="title" type="text" placeholder="Titre de la tâche" value={formData.title} onChange={handleChange} />
                         <textarea name="description" placeholder="Description..." value={formData.description} onChange={handleChange} />
@@ -119,30 +120,44 @@ export default function Edit({ tache }) {
                             <option value="Abandoné">Abandoné</option>
                         </select>
 
-                        <div style={{ borderTop: "1px solid #eee", paddingTop: "10px", marginTop: "10px" }}>
+                        <div className="edit-dossiers-section">
                             <strong>Dossiers :</strong>
-                            <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "5px", marginBottom: "10px" }}>
+                            <div className="edit-dossiers-list">
                                 {dossiersList.map(dossier => (
-                                    <label key={dossier.intitule} style={{ cursor: "pointer", display: "flex", alignItems: "center" }}>
+                                    <label key={dossier.intitule} className="edit-dossier-label">
                                         <input
                                             type="checkbox"
                                             checked={selectedDossiers.includes(dossier.intitule)}
                                             onChange={() => toggleDossier(dossier.intitule)}
                                         />
-                                        <span style={{ width: "12px", height: "12px", backgroundColor: dossier.couleur, borderRadius: "50%", margin: "0 5px" }}></span>
+                                        <span
+                                            className="edit-dossier-dot"
+                                            style={{ backgroundColor: dossier.couleur }}
+                                        ></span>
                                         {dossier.intitule}
                                     </label>
                                 ))}
                             </div>
 
-                            <div style={{ display: "flex", gap: "5px" }}>
-                                <input type="text" placeholder="Nouveau dossier (3 car.)" value={newDossierName} onChange={(e) => setNewDossierName(e.target.value)} style={{ flex: 1 }} />
-                                <input type="color" value={newDossierColor} onChange={(e) => setNewDossierColor(e.target.value)} style={{ padding: "0", width: "30px", height: "30px" }} />
+                            <div className="edit-new-dossier-wrapper">
+                                <input
+                                    type="text"
+                                    className="edit-new-dossier-input"
+                                    placeholder="Nouveau dossier (3 car.)"
+                                    value={newDossierName}
+                                    onChange={(e) => setNewDossierName(e.target.value)}
+                                />
+                                <input
+                                    type="color"
+                                    className="edit-color-picker"
+                                    value={newDossierColor}
+                                    onChange={(e) => setNewDossierColor(e.target.value)}
+                                />
                                 <button type="button" onClick={handleCreateDossier}>Créer</button>
                             </div>
                         </div>
 
-                        <div className="modal-actions" style={{ marginTop: "15px" }}>
+                        <div className="modal-actions edit-modal-actions">
                             <button onClick={handleSubmit}>Enregistrer</button>
                             <button onClick={() => setOpen(false)}>Annuler</button>
                         </div>

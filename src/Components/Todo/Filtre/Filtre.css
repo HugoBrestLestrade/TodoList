@@ -1,0 +1,54 @@
+
+.filtre-container {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.filtre-search-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.filtre-options-wrapper {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.filtre-checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.filtre-label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.filtre-reset-btn {
+    margin-left: 10px;
+    padding: 2px 8px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.filtre-dossiers-section {
+    border-left: 1px solid #ddd;
+    padding-left: 20px;
+}
+
+.filtre-dossier-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin: 0 5px;
+}
