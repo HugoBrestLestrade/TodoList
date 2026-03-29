@@ -1,6 +1,7 @@
 import { ListContext } from '../../ListContext';
 import { useContext, useState } from 'react';
 import Edit from '../Edit/Edit';
+import Tri from '../../../Tri/Tri';
 
 function TaskItem({ tache }) {
     const [isComplet, setIsComplet] = useState(false);
@@ -8,8 +9,6 @@ function TaskItem({ tache }) {
 
     return (
         <li style={{ borderBottom: "1px solid #ccc", paddingBottom: "10px", marginBottom: "15px", listStyleType: "none" }}>
-
-            {/* --- MODE SIMPLE --- */}
             <div
                 style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
                 onClick={() => setIsComplet(!isComplet)}
@@ -23,7 +22,6 @@ function TaskItem({ tache }) {
                 </span>
             </div>
 
-            {/* --- MODE COMPLET --- */}
             {isComplet && (
                 <div style={{ marginTop: "15px", paddingLeft: "25px" }}>
                     <p><strong>Description :</strong> {tache.description || "Aucune description"}</p>
@@ -31,9 +29,7 @@ function TaskItem({ tache }) {
                     <p><strong>Créée le :</strong> {tache.date_creation}</p>
                     <p>
                         <strong>Contacts :</strong>{' '}
-                        {personnes.length > 0
-                            ? personnes.map((personne) => personne.name).join(', ')
-                            : "Aucun contact"}
+                        {personnes.length > 0 ? personnes.map(p => p.name).join(', ') : "Aucun contact"}
                     </p>
                     <div style={{ marginTop: "10px" }}>
                         <Edit tache={tache} />
@@ -47,49 +43,54 @@ function TaskItem({ tache }) {
 function Read() {
     const { list } = useContext(ListContext);
 
-    // State pour stocker ce que l'utilisateur tape dans la barre de recherche
     const [searchTerm, setSearchTerm] = useState("");
+    const [sortBy, setSortBy] = useState("date_echeance");
+    const [sortDesc, setSortDesc] = useState(true);
+    const [activeEtats, setActiveEtats] = useState(["Nouveau", "En attente"]);
 
+    const tousLesEtats = ["Nouveau", "En attente", "Reussi", "Abandoné"];
 
+    const toggleEtat = (etatChoisi) => {
+        if (activeEtats.includes(etatChoisi)) {
+            setActiveEtats(activeEtats.filter(etat => etat !== etatChoisi));
+        } else {
+            setActiveEtats([...activeEtats, etatChoisi]);
+        }
+    };
+
+    // filtrage + tri
     const processedList = list
-        .filter((tache) => tache.etat !== 'Abandoné' && tache.etat !== 'Reussi')
-
+        .filter((tache) => activeEtats.includes(tache.etat))
         .filter((tache) => {
             if (searchTerm === "") return true;
-
             const lowerSearch = searchTerm.toLowerCase();
-            const titleMatch = tache.title?.toLowerCase().includes(lowerSearch);
-            const descMatch = tache.description?.toLowerCase().includes(lowerSearch);
-
-            return titleMatch || descMatch; // Recherche dans le titre et la description
+            return (
+                tache.title?.toLowerCase().includes(lowerSearch) ||
+                tache.description?.toLowerCase().includes(lowerSearch)
+            );
         })
-
-        // Tri
         .sort((a, b) => {
+            let valA = a[sortBy] || "";
+            let valB = b[sortBy] || "";
 
-            if (!a.date_echeance) return 1;
-            if (!b.date_echeance) return -1;
-
-            return new Date(b.date_echeance) - new Date(a.date_echeance);
+            if (sortBy === "title") {
+                return sortDesc ? valB.localeCompare(valA) : valA.localeCompare(valB);
+            } else {
+                if (!valA) return 1;
+                if (!valB) return -1;
+                return sortDesc ? new Date(valB) - new Date(valA) : new Date(valA) - new Date(valB);
+            }
         });
 
     return (
         <div>
-            <div style={{ marginBottom: "20px" }}>
-                <input
-                    type="text"
-                    placeholder="Rechercher dans les tâches..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    style={{
-                        width: "100%",
-                        padding: "10px",
-                        borderRadius: "8px",
-                        border: "1px solid #ccc",
-                        fontSize: "1rem"
-                    }}
-                />
-            </div>
+            <Tri
+                searchTerm={searchTerm} setSearchTerm={setSearchTerm}
+                activeEtats={activeEtats} setActiveEtats={setActiveEtats}
+                tousLesEtats={tousLesEtats} toggleEtat={toggleEtat}
+                sortBy={sortBy} setSortBy={setSortBy}
+                sortDesc={sortDesc} setSortDesc={setSortDesc}
+            />
 
             <ul style={{ padding: 0 }}>
                 {processedList.map((tache) => (
@@ -98,7 +99,7 @@ function Read() {
 
                 {processedList.length === 0 && (
                     <p style={{ textAlign: "center", color: "#888", fontStyle: "italic" }}>
-                        Aucune tâche trouvée.
+                        Aucune tâche ne correspond à ces filtres.
                     </p>
                 )}
             </ul>
