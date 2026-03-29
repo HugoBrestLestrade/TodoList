@@ -1,16 +1,35 @@
 import { createContext, useState } from "react";
 import data from './../../../data.json';
+
 export const ListContext = createContext();
 
 export function ListProvider({ children }) {
-    const [list, setList] = useState(data.tasks);
+    const initialCategories = data.categories.map(c => ({
+        id: c.id,
+        title: c.title,
 
-    // Dossiers de base
-    const [dossiersList, setDossiersList] = useState([
-        { intitule: "Urgent", couleur: "#ff4757" },
-        { intitule: "Pro", couleur: "#1e90ff" },
-        { intitule: "Perso", couleur: "#2ed573" }
-    ]);
+        color: c.color === "bluesky" ? "skyblue" : c.color
+    }));
+
+
+    const initialTasks = data.tasks.map(tache => {
+
+        const relationsDeLaTache = data.relations.filter(r => r.tache === tache.id);
+
+
+        const dossiersDeLaTache = relationsDeLaTache.map(rel =>
+            initialCategories.find(c => c.id === rel.categorie)
+        ).filter(Boolean);
+
+        return {
+            ...tache,
+            dossiers: dossiersDeLaTache
+        };
+    });
+
+
+    const [list, setList] = useState(initialTasks);
+    const [dossiersList, setDossiersList] = useState(initialCategories);
 
     return (
         <ListContext.Provider value={{ list, setList, dossiersList, setDossiersList }}>

@@ -1,6 +1,6 @@
 .header-container {
-    background-color: #2c3e50;
-    color: white;
+    background-color: var(--bg-card);
+    color: var(--text-main);
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
@@ -9,6 +9,7 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 .header-title {
@@ -33,14 +34,14 @@
 
 .header-unfinished-text {
     margin: 0;
-    color: #f1c40f;
+    color: var(--accent-color);
 }
 
 .header-pie-section {
     display: flex;
     align-items: center;
     gap: 15px;
-    border-left: 1px solid #7f8c8d;
+    border-left: 1px solid var(--border-color);
     padding-left: 30px;
 }
 
@@ -48,7 +49,7 @@
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    border: 2px solid #fff;
+    border: 2px solid var(--bg-card);
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
 

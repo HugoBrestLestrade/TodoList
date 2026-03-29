@@ -1,66 +1,42 @@
 .tache-item {
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 10px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 15px;
+    border-radius: 8px;
     margin-bottom: 15px;
     list-style-type: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+
+.tache-item:hover {
+    transform: translateY(-2px);
 }
 
 /* MODE SIMPLE */
-.tache-simple-mode {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    flex-wrap: wrap;
-}
-
-.tache-toggle-icon {
-    margin-right: 10px;
-    font-size: 1.2rem;
-}
-
-.tache-title {
-    margin: 0 15px 0 0;
-}
-
-.tache-dossiers-preview {
-    display: flex;
-}
-
-.tache-dossiers-more {
-    font-size: 0.8rem;
-    color: #888;
-    margin-left: 5px;
-}
+.tache-simple-mode { display: flex; align-items: center; cursor: pointer; flex-wrap: wrap; }
+.tache-toggle-icon { margin-right: 10px; font-size: 1.2rem; color: var(--accent-color); }
+.tache-title { margin: 0 15px 0 0; }
+.tache-dossiers-preview { display: flex; }
+.tache-dossiers-more { font-size: 0.8rem; color: var(--text-muted); margin-left: 5px; }
 
 .tache-date {
     margin-left: auto;
     font-size: 0.9rem;
-    color: #666;
+    color: var(--text-muted);
 }
 
 /* MODE COMPLET */
 .tache-complet-mode {
     margin-top: 15px;
-    padding-left: 25px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
 }
 
-.tache-dossiers-full {
-    margin-bottom: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-}
-
-.tache-edit-wrapper {
-    margin-top: 10px;
-}
-
-/*DOSSIERS*/
+.tache-dossiers-full { margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 5px; }
+.tache-edit-wrapper { margin-top: 10px; }
 .tache-dossier-tag {
-    color: white;
-    padding: 3px 8px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    margin-right: 5px;
-    font-weight: bold;
+    color: white; padding: 3px 8px; border-radius: 12px;
+    font-size: 0.8rem; margin-right: 5px; font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }

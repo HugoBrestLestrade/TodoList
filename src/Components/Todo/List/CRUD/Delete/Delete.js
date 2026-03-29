@@ -18,7 +18,7 @@ export default function Reset() {
 
     return (
         <>
-            <button onClick={handleReset}>
+            <button className="reset-buttons-container" onClick={handleReset}>
                 Partir de 0
             </button>
             <RevenirJson/>
@@ -38,7 +38,7 @@ function RevenirJson() {
     };
 
     return (
-        <button onClick={handleRestore}>
+        <button className="reset-buttons-container" onClick={handleRestore}>
             Revenir au fichier JSON
         </button>
     );

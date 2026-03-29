@@ -1,11 +1,12 @@
 .tri-container {
-    background-color: #e9ecef;
+    background-color: var(--bg-card);
     padding: 10px 15px;
     border-radius: 8px;
     margin-bottom: 20px;
     display: flex;
     align-items: center;
     gap: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 .tri-select {

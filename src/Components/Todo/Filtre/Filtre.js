@@ -47,17 +47,17 @@ export default function Filtre({
                         <strong>Filtrer par dossier : </strong>
                         <div className="filtre-checkbox-group">
                             {dossiersList.map(dossier => (
-                                <label key={dossier.intitule} className="filtre-label">
+                                <label key={dossier.title} className="filtre-label">
                                     <input
                                         type="checkbox"
-                                        checked={activeDossiers.includes(dossier.intitule)}
-                                        onChange={() => toggleFiltreDossier(dossier.intitule)}
+                                        checked={activeDossiers.includes(dossier.title)}
+                                        onChange={() => toggleFiltreDossier(dossier.title)}
                                     />
                                     <span
                                         className="filtre-dossier-dot"
-                                        style={{ backgroundColor: dossier.couleur }}
+                                        style={{ backgroundColor: dossier.color }}
                                     ></span>
-                                    {dossier.intitule}
+                                    {dossier.title}
                                 </label>
                             ))}
                         </div>

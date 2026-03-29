@@ -31,7 +31,7 @@ function Read() {
         .filter((tache) => activeEtats.includes(tache.etat))
         .filter((tache) => {
             if (activeDossiers.length === 0) return true;
-            const taskDossiersNoms = tache.dossiers ? tache.dossiers.map(d => d.intitule) : [];
+            const taskDossiersNoms = tache.dossiers ? tache.dossiers.map(d => d.title) : [];
             return activeDossiers.some(dossierFiltre => taskDossiersNoms.includes(dossierFiltre));
         })
         .filter((tache) => {

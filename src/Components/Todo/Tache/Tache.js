@@ -11,9 +11,9 @@ export default function Tache({ tache }) {
         <span
             key={index}
             className="tache-dossier-tag"
-            style={{ backgroundColor: dossier.couleur || "#ccc" }}
+            style={{ backgroundColor: dossier.color || "#ccc" }}
         >
-            {dossier.intitule}
+            {dossier.title}
         </span>
     );
 
