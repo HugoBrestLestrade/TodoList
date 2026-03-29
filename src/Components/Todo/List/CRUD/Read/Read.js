@@ -5,25 +5,65 @@ import Tri from '../../../Tri/Tri';
 
 function TaskItem({ tache }) {
     const [isComplet, setIsComplet] = useState(false);
+
     const personnes = tache.contacts || tache.equipiers || [];
+
+    const dossiers = tache.dossiers || [];
+
+    const renderDossier = (dossier, index) => (
+        <span
+            key={index}
+            style={{
+                backgroundColor: dossier.couleur || "#ccc", // Gris par défaut
+                color: "white",
+                padding: "3px 8px",
+                borderRadius: "12px",
+                fontSize: "0.8rem",
+                marginRight: "5px",
+                fontWeight: "bold"
+            }}
+        >
+            {dossier.intitule}
+        </span>
+    );
 
     return (
         <li style={{ borderBottom: "1px solid #ccc", paddingBottom: "10px", marginBottom: "15px", listStyleType: "none" }}>
-            <div
-                style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
-                onClick={() => setIsComplet(!isComplet)}
-            >
+
+            {/* MODE SIMPLE */}
+            <div style={{ display: "flex", alignItems: "center", cursor: "pointer", flexWrap: "wrap" }} onClick={() => setIsComplet(!isComplet)}>
                 <span style={{ marginRight: "10px", fontSize: "1.2rem" }}>
                     {isComplet ? "▼" : "▶"}
                 </span>
-                <h3 style={{ margin: 0 }}>{tache.title}</h3>
+
+                <h3 style={{ margin: 0, marginRight: "15px" }}>{tache.title}</h3>
+
+                <div style={{ display: "flex" }}>
+                    {dossiers.slice(0, 2).map(renderDossier)}
+                    {dossiers.length > 2 && !isComplet && (
+                        <span style={{ fontSize: "0.8rem", color: "#888", marginLeft: "5px" }}>
+                            +{dossiers.length - 2}
+                        </span>
+                    )}
+                </div>
+
                 <span style={{ marginLeft: "auto", fontSize: "0.9rem", color: "#666" }}>
                     Échéance : {tache.date_echeance || "Non définie"}
                 </span>
             </div>
 
+            {/* MODE COMPLET */}
             {isComplet && (
                 <div style={{ marginTop: "15px", paddingLeft: "25px" }}>
+
+                    {/* Affichage de TOUS les dossiers (Mode Complet) */}
+                    {dossiers.length > 0 && (
+                        <div style={{ marginBottom: "10px", display: "flex", flexWrap: "wrap", gap: "5px" }}>
+                            <strong>Dossiers : </strong>
+                            {dossiers.map(renderDossier)}
+                        </div>
+                    )}
+
                     <p><strong>Description :</strong> {tache.description || "Aucune description"}</p>
                     <p><strong>État :</strong> {tache.etat}</p>
                     <p><strong>Créée le :</strong> {tache.date_creation}</p>
@@ -31,6 +71,7 @@ function TaskItem({ tache }) {
                         <strong>Contacts :</strong>{' '}
                         {personnes.length > 0 ? personnes.map(p => p.name).join(', ') : "Aucun contact"}
                     </p>
+
                     <div style={{ marginTop: "10px" }}>
                         <Edit tache={tache} />
                     </div>
