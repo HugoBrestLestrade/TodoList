@@ -93,7 +93,11 @@ export default function Footer() {
 
     return (
         <footer>
-            <button onClick={() => setOpen(true)}>+</button>
+            <div className="footer-container">
+                <button className="add-task-btn" onClick={() => setOpen(true)}>
+                    <span style={{ fontSize: "1.2rem" }}>+</span> Ajouter une tâche
+                </button>
+            </div>
 
             {open && createPortal(
                 <div className="modal-overlay">

@@ -59,3 +59,39 @@
     justify-content: flex-end;
     gap: 10px;
 }
+
+.footer-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.add-task-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--bg-card);
+    color: var(--text-main);
+    border: 1px dashed var(--border-color);
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    max-width: 400px;
+    justify-content: center;
+}
+
+.add-task-btn:hover {
+    background-color: var(--border-color);
+    color: white;
+    transform: translateY(-2px);
+    border-style: solid;
+}
+
+.add-task-btn:active {
+    transform: translateY(0);
+}
